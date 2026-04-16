@@ -1,0 +1,96 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.email == "mmshinas@gmail.com" && request.auth.token.email_verified == true;
+    }
+
+    function isValidBooking() {
+      let data = request.resource.data;
+      let requiredFields = ['name', 'email', 'date', 'vehicleId', 'status', 'createdAt', 'depositPaid'];
+      return data.keys().hasAll(requiredFields) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.email is string && data.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.date is string && data.date.size() > 0 && data.date.size() < 50 &&
+             data.vehicleId is string && data.vehicleId.size() > 0 && data.vehicleId.size() < 100 &&
+             data.status in ['pending', 'confirmed', 'cancelled'] &&
+             data.createdAt is string &&
+             data.depositPaid is bool &&
+             (!('flightNumber' in data) || (data.flightNumber is string && data.flightNumber.size() < 50));
+    }
+
+    function isValidTourPrice() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['packageName', 'price', 'currency']) &&
+             data.packageName is string && data.packageName.size() > 0 && data.packageName.size() < 100 &&
+             data.price is number && data.price >= 0 &&
+             data.currency is string && data.currency.size() > 0 && data.currency.size() < 10;
+    }
+
+    function isValidVehicleAvailability() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['vehicleName', 'available']) &&
+             data.vehicleName is string && data.vehicleName.size() > 0 && data.vehicleName.size() < 100 &&
+             data.available is bool;
+    }
+
+    function isValidQuote() {
+      let data = request.resource.data;
+      let requiredFields = ['fullName', 'email', 'arrivalDate', 'departureDate', 'itinerary', 'status', 'createdAt'];
+      return data.keys().hasAll(requiredFields) &&
+             data.fullName is string && data.fullName.size() > 0 && data.fullName.size() < 100 &&
+             data.email is string && data.email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+             data.arrivalDate is string && data.arrivalDate.size() > 0 && data.arrivalDate.size() < 50 &&
+             data.departureDate is string && data.departureDate.size() > 0 && data.departureDate.size() < 50 &&
+             data.itinerary is string && data.itinerary.size() > 0 && data.itinerary.size() < 2000 &&
+             data.status in ['pending', 'confirmed', 'cancelled'] &&
+             data.createdAt is string &&
+             (!('arrivalFlight' in data) || (data.arrivalFlight is string && data.arrivalFlight.size() < 50)) &&
+             (!('departureFlight' in data) || (data.departureFlight is string && data.departureFlight.size() < 50));
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+    
+    // Quotes: Anyone can create a quote request (public form), but only admins can read/update/delete
+    match /quotes/{quoteId} {
+      allow create: if isValidQuote();
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Bookings: Anyone can create a booking (public form), but only admins can read/update/delete
+    match /bookings/{bookingId} {
+      allow create: if isValidBooking();
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Tour Prices: Anyone can read, only admins can write
+    match /tourPrices/{tourPriceId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidTourPrice();
+      allow delete: if isAdmin();
+    }
+
+    // Vehicle Availability: Anyone can read, only admins can write
+    match /vehicleAvailability/{vehicleId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidVehicleAvailability();
+      allow delete: if isAdmin();
+    }
+
+    // CMS Data: Anyone can read pricing and availability, only admins can write
+    match /cms/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

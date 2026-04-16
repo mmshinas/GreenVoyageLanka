@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0f172a; /* Navy 900 */
+  --color-secondary: #1e40af; /* Blue 800 */
+  --color-accent: #0ea5e9; /* Sky 500 */
+  --color-surface: #f8fafc; /* Slate 50 */
+  --color-text-main: #0f172a; /* Slate 900 */
+  --color-text-muted: #64748b; /* Slate 500 */
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-artistic: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-text-main font-sans antialiased selection:bg-accent/30;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight font-semibold;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-secondary hover:bg-primary text-white px-8 py-4 rounded-full font-bold transition-all shadow-md hover:shadow-xl active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-slate-200/50 shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .flat-card {
+    @apply bg-white border border-slate-100 rounded-3xl p-8 transition-all duration-300 hover:border-accent/30 hover:bg-slate-50/50;
+  }
+}

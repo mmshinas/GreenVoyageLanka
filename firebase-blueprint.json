@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "Booking": {
+      "title": "Booking",
+      "description": "A travel booking reservation",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "date": { "type": "string", "format": "date" },
+        "flightNumber": { "type": "string" },
+        "vehicleChoice": { "type": "string" },
+        "tourPackage": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+        "depositPaid": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "date", "vehicleChoice", "status", "createdAt"]
+    },
+    "TourPrice": {
+      "title": "Tour Price",
+      "description": "Pricing for a tour package",
+      "type": "object",
+      "properties": {
+        "packageName": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string" }
+      },
+      "required": ["packageName", "price", "currency"]
+    },
+    "VehicleAvailability": {
+      "title": "Vehicle Availability",
+      "description": "Availability status of a vehicle",
+      "type": "object",
+      "properties": {
+        "vehicleName": { "type": "string" },
+        "available": { "type": "boolean" }
+      },
+      "required": ["vehicleName", "available"]
+    }
+  },
+  "firestore": {
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Stores all customer bookings"
+    },
+    "/tourPrices/{tourPriceId}": {
+      "schema": { "$ref": "#/entities/TourPrice" },
+      "description": "Stores tour pricing for CMS"
+    },
+    "/vehicleAvailability/{vehicleId}": {
+      "schema": { "$ref": "#/entities/VehicleAvailability" },
+      "description": "Stores vehicle availability statuses"
+    }
+  }
+}
