@@ -13,7 +13,7 @@ const tourCategories = [
         id: "sigiriya",
         title: "Sigiriya (Lion Rock)",
         rating: 5.0,
-        image: "https://drive.google.com/thumbnail?id=1cjzvabh0KvK1e6calo6JnGj9JqJQ9kVH&sz=w1000",
+        image: "https://drive.google.com/thumbnail?id=17d-y4VtJOjeChxQivcD-m6YY0tO8NWXf&sz=w1000",
         desc: "An iconic 5th-century rock fortress and UNESCO World Heritage site. It is famous for its ancient frescoes, mirror wall, and the massive lion paws guarding the final ascent."
       },
       {
@@ -27,7 +27,7 @@ const tourCategories = [
         id: "polonnaruwa",
         title: "Polonnaruwa",
         rating: 4.8,
-        image: "https://drive.google.com/thumbnail?id=1TEnnfGjObWVKcCe7K-jshWWKIBxMEjvQ&sz=w1000",
+        image: "https://drive.google.com/thumbnail?id=16eWoQzPNiim8O6TwN3ohFzVKRYHp4YDJ&sz=w1000",
         desc: "The second ancient capital, known for the Gal Vihara (four massive Buddha statues carved from a single granite face) and more compact, easily navigable ruins."
       },
       {
