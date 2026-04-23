@@ -19,6 +19,7 @@ import Booking from './pages/Booking';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import About from './pages/About';
+import AirportPickUp from './pages/AirportPickUp';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { t, i18n } = useTranslation();
@@ -323,6 +324,7 @@ export default function App() {
           <Route path="/tours" element={<Tours />} />
           <Route path="/fleet" element={<Fleet />} />
           <Route path="/book" element={<Booking />} />
+          <Route path="/airport-pickup" element={<AirportPickUp />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
         </Routes>

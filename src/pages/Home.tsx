@@ -65,12 +65,17 @@ export default function Home() {
             <p className="text-lg md:text-2xl text-slate-200 mb-14 max-w-2xl mx-auto font-light leading-relaxed">
               {t('hero.subtitle')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link to="/book" className="btn-primary w-full sm:w-auto">
+            <div className="flex flex-col gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full">
+                <Link to="/tours" className="w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest text-white border border-white/30 hover:bg-white hover:text-primary transition-all duration-500 text-center">
+                  Explore Tours
+                </Link>
+                <Link to="/airport-pickup" className="w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest text-white border border-white/30 hover:bg-white hover:text-primary transition-all duration-500 text-center">
+                  Airport Pick-Up
+                </Link>
+              </div>
+              <Link to="/book" className="btn-primary w-full sm:w-auto text-center px-16">
                 Get a Quote
-              </Link>
-              <Link to="/tours" className="w-full sm:w-auto px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest text-white border border-white/30 hover:bg-white hover:text-primary transition-all duration-500">
-                Explore Tours
               </Link>
             </div>
           </motion.div>
